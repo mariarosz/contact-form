@@ -1,8 +1,16 @@
-<script setup></script>
+<script setup>
+import { reactive } from "vue";
+import { sendMessage } from "../services/APIservice";
+
+async function submitForm() {
+
+  sendMessage(message);
+}
+</script>
 
 <template>
   <div class="mx-auto my-auto lg:max-w-xl">
-    <form action="#" method="POST">
+    <form @submit.prevent="submitForm">
       <div class="overflow-hidden shadow sm:rounded-md">
         <div class="bg-white px-4 py-5 sm:p-6">
           <div class="grid grid-cols-6 gap-6">
