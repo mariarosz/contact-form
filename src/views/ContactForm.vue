@@ -12,7 +12,6 @@ const email = ref("");
 const subject = ref("");
 const message = ref("");
 let errorMessage = ref("");
-let isDisabled = ref(true);
 
 const schema = yup.object({
   name: yup.string().required().min(5).max(50),
@@ -43,7 +42,7 @@ configure({
 <template>
   <div class="py-8 lg:py-16 px-4 mx-auto max-w-screen-md">
     <div class="overflow-hidden shadow sm:rounded-md">
-      <Form @submit="onSubmit" :validation-schema="schema">
+      <Form @submit="onSubmit" :validation-schema="schema" v-slot="{ meta }">
         <h1
           class="mb-4 pt-6 text-4xl font-extrabold text-center text-gray-900 dark:text-white"
         >
@@ -140,7 +139,7 @@ configure({
         >
           <button
             type="submit"
-            :disabled="isDisabled"
+            :disabled="!meta.valid"
             class="rounded-full w-1/2 border border-transparent bg-sky-500 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 disabled:opacity-65 disabled:bg-gray-400"
           >
             Send
