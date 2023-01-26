@@ -12,6 +12,7 @@ const email = ref("");
 const subject = ref("");
 const message = ref("");
 let errorMessage = ref("");
+let isDisabled = ref(true);
 
 const schema = yup.object({
   name: yup.string().required().min(5).max(50),
@@ -20,9 +21,11 @@ const schema = yup.object({
   message: yup.string().required().max(500),
 });
 
-async function onSubmit(values) {
+async function onSubmit(values, { resetForm }) {
+  //add a loading state
   const response = await sendMessage(values);
   if (response === 201) {
+    resetForm();
     router.push("/confirmation");
   } else {
     errorMessage.value = "Upss 🫢 Something went wrong. Please try again.";
@@ -30,9 +33,9 @@ async function onSubmit(values) {
 }
 
 configure({
-  validateOnBlur: false,
+  validateOnBlur: true,
   validateOnChange: false,
-  validateOnInput: false,
+  validateOnInput: true,
   validateOnModelUpdate: false,
 });
 </script>
@@ -47,9 +50,11 @@ configure({
           Say hello
         </h1>
         <div class="bg-white px-4 py-5 sm:p-6">
-          <p v-if="errorMessage" class="text-rose-500 pb-4"> {{ errorMessage }} </p>
+          <p v-if="errorMessage" class="text-rose-500 pb-4">
+            {{ errorMessage }}
+          </p>
           <div class="col-span-6 sm:col-span-3">
-            <label for="name" class="block text-sm font-medium text-gray-700"
+            <label for="name" class="block text-md font-medium text-gray-700"
               >Name</label
             >
             <Field
@@ -61,7 +66,9 @@ configure({
               autocomplete="name"
               class="mt-1 block p-3 w-full text-sm rounded-lg border border-gray-200 shadow-sm focus:border-sky-400 focus:ring-sky-500 sm:text-sm"
             />
-            <ErrorMessage name="name" class="text-red-400" />
+            <p class="text-rose-500 pb-6">
+              <ErrorMessage name="name" class="p-0.5" />
+            </p>
           </div>
 
           <div class="col-span-6 sm:col-span-4">
@@ -75,27 +82,31 @@ configure({
               v-model="email"
               placeholder="joe@mail.com"
               autocomplete="email"
-              class="mt-1 block p-3 w-full text-sm rounded-lg border border-gray-200 shadow-sm focus:border-sky-400 focus:ring-sky-500 sm:text-sm"
+              class="mt-1 block p-3 w-full text-md rounded-lg border border-gray-200 shadow-sm focus:border-sky-400 focus:ring-sky-500 sm:text-sm"
             />
-            <ErrorMessage name="email" />
+            <p class="text-rose-500 pb-6">
+              <ErrorMessage name="email" class="p-0.5" />
+            </p>
           </div>
 
           <div class="col-span-6">
             <label for="subject" class="block text-sm font-medium text-gray-700"
               >Subject</label
             >
+
             <Field
               type="text"
               name="subject"
               id="subject"
               v-model="subject"
               placeholder="I want to talk about..."
-              autocomplete="subject"
-              class="mt-1 block p-3 w-full text-sm rounded-lg border border-gray-200 shadow-sm focus:border-sky-400 focus:ring-sky-500 sm:text-sm"
+              class="mt-1 block p-3 w-full text-md rounded-lg border border-gray-200 shadow-sm focus:border-sky-400 focus:ring-sky-500 sm:text-sm"
             />
-            <div class="flex gap-2">
-              <ErrorMessage name="subject" class="text-red-100" />
-              <p class="text-gray-200 font-sm">
+            <div class="flex justify-between">
+              <p class="text-rose-500 pb-6">
+                <ErrorMessage name="subject" class="p-0.5" />
+              </p>
+              <p class="text-gray-200 text-sm">
                 {{ `${subject.length}/100` }}
               </p>
             </div>
@@ -111,14 +122,15 @@ configure({
               id="message"
               v-model="message"
               placeholder="I'm writing to you because..."
-              autocomplete="message"
               class="mt-1 block p-3 w-full text-sm rounded-lg border border-gray-200 shadow-sm focus:border-sky-400 focus:ring-sky-500 sm:text-sm"
             />
-            <div class="flex flex-row flex-end">
-              <p class="text-gray-200 font-sm">
+            <div class="flex justify-between">
+              <p class="text-rose-500 pb-6">
+                <ErrorMessage name="message" class="p-0.5" />
+              </p>
+              <p class="text-gray-200 text-sm">
                 {{ `${message.length}/500` }}
               </p>
-              <ErrorMessage name="message" />
             </div>
           </div>
         </div>
@@ -128,9 +140,11 @@ configure({
         >
           <button
             type="submit"
-            class="rounded-full w-1/2 border border-transparent bg-sky-500 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2"
+            :disabled="isDisabled"
+            class="rounded-full w-1/2 border border-transparent bg-sky-500 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 disabled:opacity-65 disabled:bg-gray-400"
           >
             Send
+            <font-awesome-icon icon="fa-solid fa-paper-plane" />
           </button>
         </div>
       </Form>
