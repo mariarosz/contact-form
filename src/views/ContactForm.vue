@@ -11,6 +11,7 @@ const name = ref("");
 const email = ref("");
 const subject = ref("");
 const message = ref("");
+let errorMessage = ref("");
 
 const schema = yup.object({
   name: yup.string().required().min(5).max(50),
@@ -22,11 +23,9 @@ const schema = yup.object({
 async function onSubmit(values) {
   const response = await sendMessage(values);
   if (response === 201) {
-    //reset all fields
     router.push("/confirmation");
   } else {
-    //keep all fields and show error message
-    alert("Something went wrong");
+    errorMessage.value = "Upss 🫢 Something went wrong. Please try again.";
   }
 }
 
@@ -48,6 +47,7 @@ configure({
           Say hello
         </h1>
         <div class="bg-white px-4 py-5 sm:p-6">
+          <p v-if="errorMessage" class="text-rose-500 pb-4"> {{ errorMessage }} </p>
           <div class="col-span-6 sm:col-span-3">
             <label for="name" class="block text-sm font-medium text-gray-700"
               >Name</label
@@ -116,7 +116,7 @@ configure({
             />
             <div class="flex flex-row flex-end">
               <p class="text-gray-200 font-sm">
-                {{ `${message.length}/100` }}
+                {{ `${message.length}/500` }}
               </p>
               <ErrorMessage name="message" />
             </div>

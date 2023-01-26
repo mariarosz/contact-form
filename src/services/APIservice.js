@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "https://5d9f7fe94d823c0014dd323d.mockapi.io/api";
+const API_URL = "https://5d9f7fe94d823c0014dd323d.mockapi.io/ap";
 
 async function sendMessage(message) {
   try {
@@ -13,6 +13,7 @@ async function sendMessage(message) {
     return res.status;
   } catch (error) {
     console.log(error);
+    return error.message;
   }
 }
 
