@@ -2,6 +2,10 @@
 import { ref } from "vue";
 import { Form, Field, ErrorMessage, configure } from "vee-validate";
 import * as yup from "yup";
+import sendMessage from "../services/APIservice";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 
 const name = ref("");
 const email = ref("");
@@ -16,9 +20,15 @@ const schema = yup.object({
 });
 
 async function onSubmit(values) {
-  const message = JSON.stringify(values, null, 2);
-  console.log(message);
-};
+  const response = await sendMessage(values);
+  if (response === 201) {
+    //reset all fields
+    router.push("/confirmation");
+  } else {
+    //keep all fields and show error message
+    alert("Something went wrong");
+  }
+}
 
 configure({
   validateOnBlur: false,
@@ -31,8 +41,12 @@ configure({
 <template>
   <div class="py-8 lg:py-16 px-4 mx-auto max-w-screen-md">
     <div class="overflow-hidden shadow sm:rounded-md">
-    <Form @submit="onSubmit" :validation-schema="schema">
-        <h1 class="mb-4 pt-6 text-4xl font-extrabold text-center text-gray-900 dark:text-white">Say hello</h1>
+      <Form @submit="onSubmit" :validation-schema="schema">
+        <h1
+          class="mb-4 pt-6 text-4xl font-extrabold text-center text-gray-900 dark:text-white"
+        >
+          Say hello
+        </h1>
         <div class="bg-white px-4 py-5 sm:p-6">
           <div class="col-span-6 sm:col-span-3">
             <label for="name" class="block text-sm font-medium text-gray-700"
@@ -108,18 +122,18 @@ configure({
             </div>
           </div>
         </div>
-     
-      <div
-        class="bg-gray-50 flex justify-center items-center px-4 py-3 text-right sm:px-6"
-      >
-        <button
-          type="submit"
-          class="rounded-full w-1/2 border border-transparent bg-sky-500 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2"
+
+        <div
+          class="bg-gray-50 flex justify-center items-center px-4 py-3 text-right sm:px-6"
         >
-          Send
-        </button>
-      </div>
-    </Form>
-  </div>
+          <button
+            type="submit"
+            class="rounded-full w-1/2 border border-transparent bg-sky-500 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2"
+          >
+            Send
+          </button>
+        </div>
+      </Form>
+    </div>
   </div>
 </template>

@@ -10,7 +10,7 @@ const router = createRouter({
       component: ContactForm,
     },
     {
-      path: "/message-sent",
+      path: "/confirmation",
       name: "confirmation",
       component: () => import("../views/SendConfirmation.vue"),
     },
