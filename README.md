@@ -2,6 +2,7 @@
 
 Hello! My contact form is up and running 🚀
 
+![](https://github.com/mariarosz/contact-form/blob/main/public/contact-form.gif)
 ## Installation
 
 1. Clone this repo
