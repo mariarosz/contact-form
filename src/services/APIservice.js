@@ -1,13 +1,20 @@
 import axios from "axios";
 
-export default async function sendMessage(message) {
+const API_URL = "https://5d9f7fe94d823c0014dd323d.mockapi.io/api";
+
+async function sendMessage(message) {
   try {
-    const res = await axios.post(
-      "https://5d9f7fe94d823c0014dd323d.mockapi.io/api",
-      message
-    );
-    console.log(res);
+    const res = await axios.post(`${API_URL}/message`, {
+      name: message.name,
+      email: message.email,
+      subject: message.subject,
+      message: message.message,
+    });
+    return res.status;
   } catch (error) {
-    console.error(error);
+    console.log(error);
+    return error.message;
   }
 }
+
+export default sendMessage;
