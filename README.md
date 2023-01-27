@@ -9,6 +9,7 @@ Hello! My contact form is up and running 🚀
 
    ```bash
    git clone https://github.com/mariarosz/contact-form.git
+   cd contact-form
    ```
 
 2. Install dependencies.
