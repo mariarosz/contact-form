@@ -65,7 +65,7 @@ configure({
               autocomplete="name"
               class="mt-1 block p-3 w-full text-sm rounded-lg border border-gray-200 shadow-sm focus:border-sky-400 focus:ring-sky-500 sm:text-sm"
             />
-            <p class="text-rose-500 pb-6">
+            <p class="text-rose-500 pb-6" id="error-name">
               <ErrorMessage name="name" class="p-0.5" />
             </p>
           </div>
@@ -83,7 +83,7 @@ configure({
               autocomplete="email"
               class="mt-1 block p-3 w-full text-md rounded-lg border border-gray-200 shadow-sm focus:border-sky-400 focus:ring-sky-500 sm:text-sm"
             />
-            <p class="text-rose-500 pb-6">
+            <p class="text-rose-500 pb-6" id="error-email">
               <ErrorMessage name="email" class="p-0.5" />
             </p>
           </div>
@@ -102,7 +102,7 @@ configure({
               class="mt-1 block p-3 w-full text-md rounded-lg border border-gray-200 shadow-sm focus:border-sky-400 focus:ring-sky-500 sm:text-sm"
             />
             <div class="flex justify-between">
-              <p class="text-rose-500 pb-6">
+              <p class="text-rose-500 pb-6" id="error-subject">
                 <ErrorMessage name="subject" class="p-0.5" />
               </p>
               <p class="text-gray-200 text-sm">
@@ -124,7 +124,7 @@ configure({
               class="mt-1 block p-3 w-full text-sm rounded-lg border border-gray-200 shadow-sm focus:border-sky-400 focus:ring-sky-500 sm:text-sm"
             />
             <div class="flex justify-between">
-              <p class="text-rose-500 pb-6">
+              <p class="text-rose-500 pb-6" id="error-message">
                 <ErrorMessage name="message" class="p-0.5" />
               </p>
               <p class="text-gray-200 text-sm">
@@ -140,6 +140,7 @@ configure({
           <button
             type="submit"
             :disabled="!meta.valid"
+            id="submit"
             class="rounded-full w-1/2 border border-transparent bg-sky-500 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 disabled:opacity-65 disabled:bg-gray-400"
           >
             Send
